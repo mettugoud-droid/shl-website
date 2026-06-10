@@ -1,0 +1,13 @@
+export { HeroSection } from './hero';
+export { QuoteCTASection } from './quote-cta';
+export { WhyChooseSection } from './why-choose';
+export { ServicesSection } from './services';
+export { IndustriesSection } from './industries';
+export { FleetSection } from './fleet';
+export { CoverageSection } from './coverage';
+export { StatisticsSection } from './statistics';
+export { TestimonialsSection } from './testimonials';
+export { ProcessSection } from './process';
+export { FAQSection } from './faq';
+export { ContactSection } from './contact-section';
+export { WhatsAppCTASection } from './whatsapp-cta';
