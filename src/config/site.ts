@@ -55,6 +55,6 @@ export const siteConfig = {
       'dedicated fleet services',
     ],
   },
-} as const;
+};
 
 export type SiteConfig = typeof siteConfig;

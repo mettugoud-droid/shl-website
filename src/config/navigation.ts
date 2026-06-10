@@ -42,7 +42,7 @@ export const mainNavigation = [
     title: 'Contact',
     href: '/contact',
   },
-] as const;
+];
 
 export const footerNavigation = {
   services: [

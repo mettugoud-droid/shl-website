@@ -332,6 +332,6 @@ export const servicesData = {
       { value: '1000+', label: 'Express Routes' },
     ],
   },
-} as const;
+};
 
 export type ServiceSlug = keyof typeof servicesData;
