@@ -143,20 +143,6 @@ export function HeroSection() {
                 ))}
               </div>
 
-              {/* Floating Badge */}
-              <motion.div
-                className="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-hard p-4 flex items-center gap-3"
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 3, repeat: Infinity }}
-              >
-                <div className="w-10 h-10 bg-success-light rounded-full flex items-center justify-center">
-                  <Shield className="w-5 h-5 text-success" />
-                </div>
-                <div>
-                  <p className="text-xs font-semibold text-primary">Verified & Trusted</p>
-                  <p className="text-[10px] text-gray-500">GST: {siteConfig.gst}</p>
-                </div>
-              </motion.div>
             </div>
           </motion.div>
         </div>
