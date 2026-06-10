@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Phone, Mail, ChevronDown, Truck } from 'lucide-react';
+import { Menu, X, Phone, Mail, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import { siteConfig } from '@/config/site';
@@ -66,18 +67,15 @@ export function Header() {
         <Container>
           <nav className="flex items-center justify-between">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary-600 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
-                <Truck className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h1 className="text-lg font-heading font-bold text-primary leading-tight">
-                  Sri Harinath
-                </h1>
-                <p className="text-[10px] font-semibold text-secondary uppercase tracking-wider">
-                  Logistics
-                </p>
-              </div>
+            <Link href="/" className="flex items-center gap-2 group">
+              <Image
+                src="/images/logo.png"
+                alt="Sri Harinath Logistics"
+                width={180}
+                height={50}
+                className="h-10 md:h-12 w-auto object-contain"
+                priority
+              />
             </Link>
 
             {/* Desktop Navigation */}

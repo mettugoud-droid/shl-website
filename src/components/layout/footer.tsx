@@ -1,11 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   Phone,
   Mail,
   MapPin,
   Clock,
-  Truck,
   Facebook,
   Linkedin,
   Twitter,
@@ -26,17 +26,13 @@ export function Footer() {
             {/* Company Info */}
             <div className="lg:col-span-1">
               <Link href="/" className="flex items-center gap-3 mb-6 group">
-                <div className="w-10 h-10 bg-gradient-to-br from-secondary to-secondary-400 rounded-xl flex items-center justify-center">
-                  <Truck className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-heading font-bold text-white leading-tight">
-                    Sri Harinath
-                  </h3>
-                  <p className="text-[10px] font-semibold text-secondary uppercase tracking-wider">
-                    Logistics
-                  </p>
-                </div>
+                <Image
+                  src="/images/logo-white.png"
+                  alt="Sri Harinath Logistics"
+                  width={160}
+                  height={45}
+                  className="h-10 w-auto object-contain brightness-0 invert"
+                />
               </Link>
               <p className="text-gray-400 text-sm leading-relaxed mb-6">
                 {siteConfig.tagline} — Your trusted partner for comprehensive
