@@ -14,10 +14,10 @@ interface ServiceData {
   shortTitle: string;
   description: string;
   heroSubtitle: string;
-  features: string[];
-  benefits: { title: string; description: string }[];
-  idealFor: string[];
-  stats: { value: string; label: string }[];
+  features: readonly string[];
+  benefits: readonly { readonly title: string; readonly description: string }[];
+  idealFor: readonly string[];
+  stats: readonly { readonly value: string; readonly label: string }[];
 }
 
 interface ServicePageContentProps {
