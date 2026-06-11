@@ -9,11 +9,11 @@ export const siteConfig = {
   gst: '36ITMPS6428H1ZX',
   
   contact: {
-    phone: '+91 8008870661',
-    phoneRaw: '918008870661',
+    phone: '+91 70757 42929',
+    phoneRaw: '917075742929',
     primaryEmail: 'quotes@sriharinathlogistics.com',
     secondaryEmail: 'info@sriharinathlogistics.com',
-    whatsapp: '918008870661',
+    whatsapp: '917075742929',
   },
 
   address: {

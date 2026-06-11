@@ -10,7 +10,7 @@ export function formatPhone(phone: string): string {
 }
 
 export function getWhatsAppUrl(message?: string): string {
-  const baseUrl = 'https://wa.me/918008870661';
+  const baseUrl = 'https://wa.me/917075742929';
   if (message) {
     return `${baseUrl}?text=${encodeURIComponent(message)}`;
   }

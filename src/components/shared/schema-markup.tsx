@@ -60,7 +60,7 @@ export function LocalBusinessSchema() {
     name: siteConfig.name,
     image: `${siteConfig.url}/images/logo.png`,
     url: siteConfig.url,
-    telephone: siteConfig.contact.phone,
+    telephone: '+91 70757 42929',
     email: siteConfig.contact.primaryEmail,
     priceRange: '₹₹',
     address: {
@@ -156,7 +156,7 @@ export function FAQSchema() {
   const faqs = [
     { question: 'What areas does Sri Harinath Logistics cover?', answer: 'SHL provides logistics services across all 28 states and 8 union territories of India, covering 500+ cities and 1000+ pin codes with primary hubs in Hyderabad and South India.' },
     { question: 'What types of vehicles do you operate?', answer: 'Our fleet includes mini trucks (1-3 tons), LCV (3-7 tons), ICV (7-15 tons), heavy trucks (15-25 tons), multi-axle vehicles (25-40 tons), and container trucks. All 450+ vehicles are GPS-tracked.' },
-    { question: 'How quickly can I get a quote?', answer: 'We provide customized quotes within 2 hours during business hours (Mon-Sat, 9 AM - 7 PM). For urgent requirements, call +91 8008870661 directly.' },
+    { question: 'How quickly can I get a quote?', answer: 'We provide customized quotes within 2 hours during business hours (Mon-Sat, 9 AM - 7 PM). For urgent requirements, call +91 70757 42929 directly.' },
     { question: 'Is Sri Harinath Logistics a GST registered company?', answer: 'Yes, SHL is fully GST registered with GST number 36ITMPS6428H1ZX. We provide proper tax invoices and all compliance documentation.' },
     { question: 'Do you provide real-time shipment tracking?', answer: 'Yes, all shipments are trackable in real-time. You receive a unique tracking ID upon booking to monitor shipment status, location, and estimated delivery time.' },
     { question: 'What industries do you specialize in?', answer: 'We serve FMCG, retail, manufacturing, pharmaceuticals, automotive, and e-commerce industries with specialized logistics solutions.' },

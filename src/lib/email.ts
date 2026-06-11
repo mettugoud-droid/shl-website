@@ -142,14 +142,14 @@ export function getCustomerAutoResponse(name: string) {
             <p style="margin: 0 0 10px; font-size: 14px; color: #333; font-weight: 600;">
               For urgent support, please call:
             </p>
-            <a href="tel:+918008870661" style="display: inline-block; background: #F58220; color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 10px; font-size: 16px; font-weight: 700;">
-              📞 +91 8008870661
+            <a href="tel:+917075742929" style="display: inline-block; background: #F58220; color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 10px; font-size: 16px; font-weight: 700;">
+              📞 +91 70757 42929
             </a>
           </div>
 
           <!-- WhatsApp -->
           <div style="text-align: center; margin-bottom: 20px;">
-            <a href="https://wa.me/918008870661?text=Hi!%20I%20just%20submitted%20an%20inquiry%20on%20your%20website." style="display: inline-block; background: #25D366; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 10px; font-size: 14px; font-weight: 600;">
+            <a href="https://wa.me/917075742929?text=Hi!%20I%20just%20submitted%20an%20inquiry%20on%20your%20website." style="display: inline-block; background: #25D366; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 10px; font-size: 14px; font-weight: 600;">
               💬 Chat on WhatsApp
             </a>
           </div>
@@ -161,7 +161,7 @@ export function getCustomerAutoResponse(name: string) {
             <p style="margin: 0; font-weight: 600; color: #0A2342;">Regards,</p>
             <p style="margin: 5px 0 0; font-weight: 700; color: #0A2342;">SRI HARINATH LOGISTICS</p>
             <p style="margin: 5px 0 0;">📧 info@sriharinathlogistics.com</p>
-            <p style="margin: 3px 0 0;">📞 +91 8008870661</p>
+            <p style="margin: 3px 0 0;">📞 +91 70757 42929</p>
             <p style="margin: 3px 0 0;">🌐 www.sriharinathlogistics.com</p>
             <p style="margin: 8px 0 0; font-size: 11px; color: #999;">
               GST: 36ITMPS6428H1ZX | Secunderabad, Telangana

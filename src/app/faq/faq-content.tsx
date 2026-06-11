@@ -71,7 +71,7 @@ const faqCategories = [
     questions: [
       {
         q: 'How can I track my shipment?',
-        a: 'You can track your shipment using the tracking ID provided at booking time. Visit our tracking page, contact our operations team at +91 8008870661, or send your tracking ID via WhatsApp for instant status updates.',
+        a: 'You can track your shipment using the tracking ID provided at booking time. Visit our tracking page, contact our operations team at +91 70757 42929, or send your tracking ID via WhatsApp for instant status updates.',
       },
       {
         q: 'How quickly do you respond to queries?',
@@ -83,7 +83,7 @@ const faqCategories = [
       },
       {
         q: 'How do I file a complaint?',
-        a: 'You can file a complaint by calling +91 8008870661, emailing info@sriharinathlogistics.com, or via WhatsApp. All complaints are acknowledged within 2 hours and resolved within 48 hours. We take customer feedback seriously.',
+        a: 'You can file a complaint by calling +91 70757 42929, emailing info@sriharinathlogistics.com, or via WhatsApp. All complaints are acknowledged within 2 hours and resolved within 48 hours. We take customer feedback seriously.',
       },
     ],
   },
@@ -92,7 +92,7 @@ const faqCategories = [
     questions: [
       {
         q: 'How do I book a shipment?',
-        a: 'You can book by: (1) Filling the Request Quote form on our website, (2) Calling +91 8008870661, (3) Sending requirements via WhatsApp, or (4) Emailing quotes@sriharinathlogistics.com. We confirm bookings within 2 hours.',
+        a: 'You can book by: (1) Filling the Request Quote form on our website, (2) Calling +91 70757 42929, (3) Sending requirements via WhatsApp, or (4) Emailing quotes@sriharinathlogistics.com. We confirm bookings within 2 hours.',
       },
       {
         q: 'What payment methods do you accept?',

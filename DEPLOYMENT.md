@@ -54,8 +54,8 @@ EMAIL_CC=info@sriharinathlogistics.com
 
 # Site
 NEXT_PUBLIC_SITE_URL=https://sriharinathlogistics.com
-NEXT_PUBLIC_WHATSAPP_NUMBER=918008870661
-NEXT_PUBLIC_PHONE_NUMBER=+918008870661
+NEXT_PUBLIC_WHATSAPP_NUMBER=917075742929
+NEXT_PUBLIC_PHONE_NUMBER=+917075742929
 
 # Admin Panel
 ADMIN_EMAIL=admin@sriharinathlogistics.com
@@ -333,4 +333,4 @@ Expected scores:
 
 For deployment assistance:
 - Email: info@sriharinathlogistics.com
-- Phone: +91 8008870661
+- Phone: +91 70757 42929

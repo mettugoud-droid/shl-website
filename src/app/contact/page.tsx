@@ -9,7 +9,7 @@ import { getWhatsAppUrl } from '@/lib/utils';
 export const metadata: Metadata = {
   title: 'Contact Us',
   description:
-    'Contact Sri Harinath Logistics for quotes, support, or general inquiries. Call +91 8008870661, email quotes@sriharinathlogistics.com, or visit our office in Secunderabad.',
+    'Contact Sri Harinath Logistics for quotes, support, or general inquiries. Call +91 70757 42929, email quotes@sriharinathlogistics.com, or visit our office in Secunderabad.',
   keywords: [
     'contact logistics company',
     'SHL contact',

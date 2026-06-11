@@ -21,7 +21,7 @@ const faqs = [
   {
     question: 'How quickly can I get a quote?',
     answer:
-      'We provide customized quotes within 2 hours of receiving your requirement during business hours (Mon-Sat, 9 AM - 7 PM). For urgent requirements, call us directly at +91 8008870661 for immediate assistance.',
+      'We provide customized quotes within 2 hours of receiving your requirement during business hours (Mon-Sat, 9 AM - 7 PM). For urgent requirements, call us directly at +91 70757 42929 for immediate assistance.',
   },
   {
     question: 'Is Sri Harinath Logistics a GST registered company?',
