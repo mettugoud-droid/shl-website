@@ -3,15 +3,15 @@ import { PageHero } from '@/components/shared/page-hero';
 import { TrackingContent } from './tracking-content';
 
 export const metadata: Metadata = {
-  title: 'Shipment Tracking',
+  title: 'Vehicle Tracking',
   description:
-    'Track your shipment with Sri Harinath Logistics. Enter your tracking ID or consignment number to get real-time status updates on your cargo.',
+    'Track your vehicle live with Sri Harinath Logistics. Get real-time GPS location, route updates, and estimated arrival time for all our fleet vehicles.',
   keywords: [
-    'track shipment',
-    'logistics tracking',
-    'consignment tracking',
-    'SHL tracking',
-    'cargo status',
+    'vehicle tracking',
+    'live GPS tracking',
+    'truck tracking',
+    'fleet tracking',
+    'real-time vehicle location',
   ],
 };
 
@@ -19,9 +19,9 @@ export default function TrackingPage() {
   return (
     <>
       <PageHero
-        title="Track Your Shipment"
-        subtitle="Enter your tracking ID or consignment number to get real-time updates on your shipment status, location, and estimated delivery time."
-        breadcrumbs={[{ label: 'Tracking' }]}
+        title="Live Vehicle Tracking"
+        subtitle="Track your vehicle in real-time with GPS-enabled fleet monitoring. Get live location, route progress, and estimated time of arrival for all shipments."
+        breadcrumbs={[{ label: 'Vehicle Tracking' }]}
       />
       <TrackingContent />
     </>

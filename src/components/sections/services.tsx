@@ -33,12 +33,6 @@ const services = [
   },
   {
     icon: Warehouse,
-    title: 'Warehousing Solutions',
-    description: 'Secure, modern warehousing facilities with inventory management, order fulfillment, and value-added services across key locations.',
-    href: '/services/warehousing',
-  },
-  {
-    icon: Route,
     title: 'Distribution Services',
     description: 'End-to-end product distribution with route optimization, multi-point deliveries, and real-time tracking for complete visibility.',
     href: '/services/distribution',

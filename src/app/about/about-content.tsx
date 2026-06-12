@@ -86,7 +86,7 @@ export function AboutContent() {
                   Over the years, we have earned the trust of 1000+ businesses – from SMEs to large enterprises – across sectors including FMCG, pharmaceuticals, manufacturing, retail, automotive, and e-commerce. Our success is built on a simple principle: treat every shipment as if it were our own.
                 </p>
                 <p>
-                  As a GST-registered company (GST: 36ITMPS6428H1ZX), we ensure complete compliance and transparency in all our operations. Our technology-driven approach combines GPS tracking, route optimization, and real-time communication to deliver an unmatched logistics experience.
+                  Our technology-driven approach combines GPS tracking, route optimization, and real-time communication to deliver an unmatched logistics experience.
                 </p>
               </div>
             </motion.div>

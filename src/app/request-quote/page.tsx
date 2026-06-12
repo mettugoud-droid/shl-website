@@ -68,8 +68,8 @@ export default function RequestQuotePage() {
                 <div className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100">
                   <Shield className="w-8 h-8 text-secondary" />
                   <div>
-                    <p className="text-sm font-semibold text-primary">GST Registered Company</p>
-                    <p className="text-xs text-gray-500">GST: {siteConfig.gst}</p>
+                    <p className="text-sm font-semibold text-primary">Registered & Compliant</p>
+                    <p className="text-xs text-gray-500">Fully verified logistics partner</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100">

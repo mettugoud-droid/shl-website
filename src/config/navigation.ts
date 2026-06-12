@@ -13,7 +13,6 @@ export const mainNavigation = [
     children: [
       { title: 'Full Truck Load (FTL)', href: '/services/ftl', description: 'Dedicated full truck shipments for large consignments' },
       { title: 'Part Truck Load (PTL)', href: '/services/ptl', description: 'Cost-effective shared transport for smaller loads' },
-      { title: 'Warehousing Solutions', href: '/services/warehousing', description: 'Secure storage and inventory management' },
       { title: 'Distribution Services', href: '/services/distribution', description: 'End-to-end product distribution across India' },
       { title: 'Dedicated Fleet Services', href: '/services/dedicated-fleet', description: 'Exclusive fleet for your business operations' },
       { title: 'Supply Chain Management', href: '/services/supply-chain', description: 'Complete supply chain optimization' },
@@ -48,7 +47,6 @@ export const footerNavigation = {
   services: [
     { title: 'Full Truck Load (FTL)', href: '/services/ftl' },
     { title: 'Part Truck Load (PTL)', href: '/services/ptl' },
-    { title: 'Warehousing Solutions', href: '/services/warehousing' },
     { title: 'Distribution Services', href: '/services/distribution' },
     { title: 'Dedicated Fleet Services', href: '/services/dedicated-fleet' },
     { title: 'Supply Chain Management', href: '/services/supply-chain' },
@@ -68,7 +66,7 @@ export const footerNavigation = {
   support: [
     { title: 'Contact Us', href: '/contact' },
     { title: 'Request Quote', href: '/request-quote' },
-    { title: 'Shipment Tracking', href: '/tracking' },
+    { title: 'Vehicle Tracking', href: '/tracking' },
     { title: 'Privacy Policy', href: '/privacy-policy' },
     { title: 'Terms & Conditions', href: '/terms' },
   ],

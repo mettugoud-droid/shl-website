@@ -6,7 +6,7 @@ import { AboutContent } from './about-content';
 export const metadata: Metadata = {
   title: 'About Us',
   description:
-    'Learn about Sri Harinath Logistics (SHL) – a trusted GST-registered logistics company offering transportation, warehousing, and supply chain solutions across India since 2021.',
+    'Learn about Sri Harinath Logistics (SHL) – a trusted logistics company offering transportation and supply chain solutions across India since 2021.',
   keywords: [
     'about sri harinath logistics',
     'logistics company hyderabad',

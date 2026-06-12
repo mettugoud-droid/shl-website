@@ -16,9 +16,9 @@ import { SectionHeading } from '@/components/ui/section-heading';
 const features = [
   {
     icon: Shield,
-    title: 'GST Registered & Verified',
+    title: 'Fully Compliant & Verified',
     description:
-      'We are a fully GST registered logistics company ensuring complete compliance, transparent billing, and hassle-free documentation for all shipments.',
+      'We are a fully registered logistics company ensuring complete compliance, transparent billing, and hassle-free documentation for all shipments.',
   },
   {
     icon: Clock,

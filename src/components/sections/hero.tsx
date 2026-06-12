@@ -48,7 +48,7 @@ export function HeroSection() {
             >
               <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-sm text-white/90 mb-6">
                 <Shield className="w-4 h-4 text-secondary" />
-                GST Registered | Pan India Logistics
+                Trusted Logistics | Pan India Coverage
               </span>
             </motion.div>
 

@@ -2,24 +2,46 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Package, Phone, MessageCircle } from 'lucide-react';
+import { Search, Truck, Phone, MessageCircle, MapPin, Navigation, Clock, Shield } from 'lucide-react';
 import { Container } from '@/components/ui/container';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { siteConfig } from '@/config/site';
 import { getWhatsAppUrl } from '@/lib/utils';
 
+const trackingFeatures = [
+  {
+    icon: MapPin,
+    title: 'Real-Time GPS Location',
+    description: 'Track your vehicle on a live map with GPS coordinates updated every 30 seconds.',
+  },
+  {
+    icon: Navigation,
+    title: 'Route Progress',
+    description: 'See the exact route your vehicle is taking with distance covered and remaining.',
+  },
+  {
+    icon: Clock,
+    title: 'Live ETA Updates',
+    description: 'Get accurate estimated time of arrival that updates based on real-time traffic and route conditions.',
+  },
+  {
+    icon: Shield,
+    title: 'Vehicle Safety Alerts',
+    description: 'Receive alerts for speed violations, route deviations, and unscheduled stops.',
+  },
+];
+
 export function TrackingContent() {
-  const [trackingId, setTrackingId] = useState('');
+  const [vehicleId, setVehicleId] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
 
   const handleTrack = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!trackingId.trim()) return;
+    if (!vehicleId.trim()) return;
 
     setIsSearching(true);
-    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1500));
     setIsSearching(false);
     setHasSearched(true);
@@ -39,13 +61,13 @@ export function TrackingContent() {
             <div className="flex-1">
               <Input
                 type="text"
-                placeholder="Enter Tracking ID or Consignment Number"
-                value={trackingId}
-                onChange={(e) => setTrackingId(e.target.value)}
+                placeholder="Enter Vehicle Number or Tracking ID"
+                value={vehicleId}
+                onChange={(e) => setVehicleId(e.target.value)}
                 className="h-12"
               />
             </div>
-            <Button type="submit" size="lg" disabled={isSearching || !trackingId.trim()}>
+            <Button type="submit" size="lg" disabled={isSearching || !vehicleId.trim()}>
               {isSearching ? (
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
@@ -57,7 +79,7 @@ export function TrackingContent() {
             </Button>
           </form>
           <p className="text-xs text-gray-400 mt-2 text-center">
-            Your tracking ID was shared via SMS/email when your shipment was booked.
+            Enter your vehicle number (e.g., TS 09 AB 1234) or tracking ID shared at the time of booking.
           </p>
         </motion.div>
 
@@ -69,12 +91,12 @@ export function TrackingContent() {
             transition={{ duration: 0.4 }}
             className="text-center p-8 bg-accent rounded-2xl border border-gray-100"
           >
-            <Package className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+            <Truck className="w-12 h-12 text-secondary mx-auto mb-4" />
             <h3 className="text-heading-md font-heading font-semibold text-primary mb-2">
-              Tracking System Upgrade in Progress
+              Live Tracking Available
             </h3>
             <p className="text-body-sm text-gray-600 mb-6 max-w-md mx-auto">
-              Our online tracking portal is being upgraded for a better experience. For immediate shipment status, please contact our operations team:
+              For live vehicle location and real-time updates, please contact our operations team. They will share the live GPS link for your vehicle.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a href={`tel:${siteConfig.contact.phone}`}>
@@ -84,7 +106,7 @@ export function TrackingContent() {
                 </Button>
               </a>
               <a
-                href={getWhatsAppUrl(`Hi! I want to track my shipment. Tracking ID: ${trackingId}`)}
+                href={getWhatsAppUrl(`Hi! I want to track my vehicle. Vehicle/Tracking ID: ${vehicleId}`)}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -101,32 +123,61 @@ export function TrackingContent() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            {/* How Tracking Works */}
+            {/* Live Tracking Features */}
+            <div className="bg-accent rounded-2xl border border-gray-100 p-6 md:p-8 mb-10">
+              <h3 className="text-heading-md font-heading font-semibold text-primary mb-6 text-center">
+                Live Vehicle Tracking Features
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {trackingFeatures.map((feature, index) => {
+                  const Icon = feature.icon;
+                  return (
+                    <motion.div
+                      key={feature.title}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
+                      className="flex items-start gap-4 p-4 bg-white rounded-xl border border-gray-100"
+                    >
+                      <div className="w-10 h-10 bg-secondary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <Icon className="w-5 h-5 text-secondary" />
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-semibold text-primary mb-1">{feature.title}</h4>
+                        <p className="text-xs text-gray-500">{feature.description}</p>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* How It Works */}
             <div className="bg-accent rounded-2xl border border-gray-100 p-6 md:p-8">
               <h3 className="text-heading-md font-heading font-semibold text-primary mb-4 text-center">
-                How to Track Your Shipment
+                How Vehicle Tracking Works
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="text-center">
                   <div className="w-10 h-10 bg-secondary/10 rounded-xl flex items-center justify-center mx-auto mb-3">
                     <span className="text-sm font-bold text-secondary">1</span>
                   </div>
-                  <h4 className="text-sm font-semibold text-primary mb-1">Get Your Tracking ID</h4>
-                  <p className="text-xs text-gray-500">Shared via SMS and email at the time of booking your shipment.</p>
+                  <h4 className="text-sm font-semibold text-primary mb-1">Book Your Shipment</h4>
+                  <p className="text-xs text-gray-500">Get a unique tracking ID and vehicle number assigned to your consignment.</p>
                 </div>
                 <div className="text-center">
                   <div className="w-10 h-10 bg-secondary/10 rounded-xl flex items-center justify-center mx-auto mb-3">
                     <span className="text-sm font-bold text-secondary">2</span>
                   </div>
-                  <h4 className="text-sm font-semibold text-primary mb-1">Enter Above</h4>
-                  <p className="text-xs text-gray-500">Enter your tracking ID or consignment number in the search box.</p>
+                  <h4 className="text-sm font-semibold text-primary mb-1">Enter Vehicle Number</h4>
+                  <p className="text-xs text-gray-500">Use the vehicle number or tracking ID in the search box above to locate your vehicle.</p>
                 </div>
                 <div className="text-center">
                   <div className="w-10 h-10 bg-secondary/10 rounded-xl flex items-center justify-center mx-auto mb-3">
                     <span className="text-sm font-bold text-secondary">3</span>
                   </div>
-                  <h4 className="text-sm font-semibold text-primary mb-1">View Status</h4>
-                  <p className="text-xs text-gray-500">Get real-time status, location, and estimated delivery information.</p>
+                  <h4 className="text-sm font-semibold text-primary mb-1">Get Live Updates</h4>
+                  <p className="text-xs text-gray-500">View real-time GPS location, route progress, speed, and estimated arrival time.</p>
                 </div>
               </div>
             </div>
@@ -134,7 +185,7 @@ export function TrackingContent() {
             {/* Contact for Tracking */}
             <div className="mt-8 text-center">
               <p className="text-body-sm text-gray-600 mb-4">
-                Can&apos;t find your tracking ID? Contact our team for assistance:
+                Need help tracking your vehicle? Contact our operations team:
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a href={`tel:${siteConfig.contact.phone}`} className="text-sm text-primary font-medium flex items-center gap-2 hover:text-secondary transition-colors">
@@ -142,7 +193,7 @@ export function TrackingContent() {
                   {siteConfig.contact.phone}
                 </a>
                 <a
-                  href={getWhatsAppUrl('Hi! I need help tracking my shipment.')}
+                  href={getWhatsAppUrl('Hi! I need help tracking my vehicle.')}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm text-green-600 font-medium flex items-center gap-2 hover:text-green-700 transition-colors"
