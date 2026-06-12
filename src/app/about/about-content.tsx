@@ -54,7 +54,7 @@ const milestones = [
   { year: '2021', title: 'Company Founded', description: 'Started with 5 vehicles in Hyderabad focusing on local transport.' },
   { year: '2022', title: 'Regional Expansion', description: 'Expanded to 50 vehicles covering Telangana and Andhra Pradesh.' },
   { year: '2023', title: 'Pan India Network', description: 'Launched operations across South India with 150+ vehicles.' },
-  { year: '2024', title: 'Warehousing Launch', description: 'Opened warehousing facilities and supply chain management services.' },
+  { year: '2024', title: 'Pan India Expansion', description: 'Extended operations to North and West India with 200+ fleet vehicles.' },
   { year: '2025', title: '1000 Clients Milestone', description: 'Crossed 1000+ active business clients with 350+ fleet vehicles.' },
   { year: '2026', title: 'Technology Upgrade', description: '450+ fleet with GPS tracking, digital platform, and nationwide operations.' },
 ];
