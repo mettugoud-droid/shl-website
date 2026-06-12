@@ -24,7 +24,7 @@ const faqCategories = [
       },
       {
         q: 'How long has SHL been in business?',
-        a: 'Sri Harinath Logistics was founded in 2014 and has been operating for over 10 years. In this time, we have grown from a small fleet in Hyderabad to a pan-India logistics enterprise serving 1000+ business clients.',
+        a: 'Sri Harinath Logistics was founded in 2021 and has been growing rapidly since then. In this time, we have grown from a small fleet in Hyderabad to a pan-India logistics enterprise serving 1000+ business clients.',
       },
     ],
   },

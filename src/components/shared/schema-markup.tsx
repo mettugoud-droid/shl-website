@@ -9,7 +9,7 @@ export function OrganizationSchema() {
     url: siteConfig.url,
     logo: `${siteConfig.url}/images/logo.png`,
     description: siteConfig.description,
-    foundingDate: '2014',
+    foundingDate: '2021',
     address: {
       '@type': 'PostalAddress',
       streetAddress: siteConfig.address.street,

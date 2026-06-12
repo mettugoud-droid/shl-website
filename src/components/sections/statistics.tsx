@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { Container } from '@/components/ui/container';
 
 const statistics = [
-  { value: '10+', label: 'Years of Experience', suffix: '' },
+  { value: '5+', label: 'Years of Experience', suffix: '' },
   { value: '1000+', label: 'Satisfied Clients', suffix: '' },
   { value: '500+', label: 'Cities Covered', suffix: '' },
   { value: '10K+', label: 'Monthly Deliveries', suffix: '' },

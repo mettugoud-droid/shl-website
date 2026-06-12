@@ -51,12 +51,12 @@ const coreValues = [
 ];
 
 const milestones = [
-  { year: '2014', title: 'Company Founded', description: 'Started with 5 vehicles in Hyderabad focusing on local transport.' },
-  { year: '2016', title: 'Regional Expansion', description: 'Expanded to 50 vehicles covering Telangana and Andhra Pradesh.' },
-  { year: '2018', title: 'Pan India Network', description: 'Launched operations across South India with 150+ vehicles.' },
-  { year: '2020', title: 'Warehousing Launch', description: 'Opened warehousing facilities and supply chain management services.' },
-  { year: '2022', title: '1000 Clients Milestone', description: 'Crossed 1000+ active business clients with 350+ fleet vehicles.' },
-  { year: '2024', title: 'Technology Upgrade', description: '450+ fleet with GPS tracking, digital platform, and nationwide operations.' },
+  { year: '2021', title: 'Company Founded', description: 'Started with 5 vehicles in Hyderabad focusing on local transport.' },
+  { year: '2022', title: 'Regional Expansion', description: 'Expanded to 50 vehicles covering Telangana and Andhra Pradesh.' },
+  { year: '2023', title: 'Pan India Network', description: 'Launched operations across South India with 150+ vehicles.' },
+  { year: '2024', title: 'Warehousing Launch', description: 'Opened warehousing facilities and supply chain management services.' },
+  { year: '2025', title: '1000 Clients Milestone', description: 'Crossed 1000+ active business clients with 350+ fleet vehicles.' },
+  { year: '2026', title: 'Technology Upgrade', description: '450+ fleet with GPS tracking, digital platform, and nationwide operations.' },
 ];
 
 export function AboutContent() {
@@ -80,10 +80,10 @@ export function AboutContent() {
               </h2>
               <div className="space-y-4 text-body-md text-gray-600 leading-relaxed">
                 <p>
-                  Sri Harinath Logistics was founded in 2014 with a clear vision: to provide businesses across India with reliable, efficient, and cost-effective logistics solutions. What started as a small fleet of 5 vehicles serving the Hyderabad-Secunderabad corridor has grown into a comprehensive logistics enterprise with 450+ vehicles operating across all 28 states.
+                  Sri Harinath Logistics was founded in 2021 with a clear vision: to provide businesses across India with reliable, efficient, and cost-effective logistics solutions. What started as a small fleet of 5 vehicles serving the Hyderabad-Secunderabad corridor has grown into a comprehensive logistics enterprise with 450+ vehicles operating across all 28 states.
                 </p>
                 <p>
-                  Over the past decade, we have earned the trust of 1000+ businesses – from SMEs to large enterprises – across sectors including FMCG, pharmaceuticals, manufacturing, retail, automotive, and e-commerce. Our success is built on a simple principle: treat every shipment as if it were our own.
+                  Over the years, we have earned the trust of 1000+ businesses – from SMEs to large enterprises – across sectors including FMCG, pharmaceuticals, manufacturing, retail, automotive, and e-commerce. Our success is built on a simple principle: treat every shipment as if it were our own.
                 </p>
                 <p>
                   As a GST-registered company (GST: 36ITMPS6428H1ZX), we ensure complete compliance and transparency in all our operations. Our technology-driven approach combines GPS tracking, route optimization, and real-time communication to deliver an unmatched logistics experience.
@@ -110,7 +110,7 @@ export function AboutContent() {
               </div>
               <div className="p-6 bg-accent rounded-2xl text-center">
                 <Award className="w-8 h-8 text-secondary mx-auto mb-3" />
-                <p className="text-2xl font-heading font-bold text-primary">10+</p>
+                <p className="text-2xl font-heading font-bold text-primary">5+</p>
                 <p className="text-sm text-gray-500">Years Experience</p>
               </div>
               <div className="p-6 bg-accent rounded-2xl text-center">
