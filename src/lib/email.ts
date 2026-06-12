@@ -1,14 +1,7 @@
 import nodemailer from 'nodemailer';
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT) || 465,
-  secure: true,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASSWORD,
-  },
-});
+// Use Resend API if available, fallback to SMTP
+const useResend = !!process.env.RESEND_API_KEY;
 
 interface SendEmailOptions {
   to: string;
@@ -18,19 +11,65 @@ interface SendEmailOptions {
   replyTo?: string;
 }
 
-export async function sendEmail({ to, cc, subject, html, replyTo }: SendEmailOptions) {
-  try {
-    const info = await transporter.sendMail({
-      from: `"Sri Harinath Logistics" <${process.env.SMTP_USER}>`,
-      to,
-      cc,
+async function sendViaResend({ to, cc, subject, html, replyTo }: SendEmailOptions) {
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: 'Sri Harinath Logistics <noreply@sriharinathlogistics.com>',
+      to: [to],
+      cc: cc ? [cc] : undefined,
       subject,
       html,
-      replyTo,
-    });
+      reply_to: replyTo,
+    }),
+  });
 
-    console.log('Email sent:', info.messageId);
-    return { success: true, messageId: info.messageId };
+  if (!response.ok) {
+    const error = await response.json();
+    console.error('Resend error:', error);
+    throw new Error(`Resend failed: ${JSON.stringify(error)}`);
+  }
+
+  const data = await response.json();
+  console.log('Email sent via Resend:', data.id);
+  return { success: true, messageId: data.id };
+}
+
+async function sendViaSMTP({ to, cc, subject, html, replyTo }: SendEmailOptions) {
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT) || 465,
+    secure: true,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASSWORD,
+    },
+  });
+
+  const info = await transporter.sendMail({
+    from: `"Sri Harinath Logistics" <${process.env.SMTP_USER}>`,
+    to,
+    cc,
+    subject,
+    html,
+    replyTo,
+  });
+
+  console.log('Email sent via SMTP:', info.messageId);
+  return { success: true, messageId: info.messageId };
+}
+
+export async function sendEmail(options: SendEmailOptions) {
+  try {
+    if (useResend) {
+      return await sendViaResend(options);
+    } else {
+      return await sendViaSMTP(options);
+    }
   } catch (error) {
     console.error('Email send error:', error);
     throw new Error('Failed to send email');
