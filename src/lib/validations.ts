@@ -67,7 +67,6 @@ export const shipmentTypeOptions = [
   { value: 'ftl', label: 'Full Truck Load (FTL)' },
   { value: 'ptl', label: 'Part Truck Load (PTL)' },
   { value: 'express', label: 'Express Cargo' },
-  { value: 'warehousing', label: 'Warehousing' },
   { value: 'distribution', label: 'Distribution' },
   { value: 'ecommerce', label: 'E-Commerce Logistics' },
   { value: 'last-mile', label: 'Last Mile Delivery' },
