@@ -1,15 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
 import '@/styles/globals.css';
-import { Header } from '@/components/layout/header';
-import { Footer } from '@/components/layout/footer';
-import { WhatsAppButton } from '@/components/layout/whatsapp-button';
-import {
-  OrganizationSchema,
-  LocalBusinessSchema,
-  ServiceSchema,
-  FAQSchema,
-} from '@/components/shared/schema-markup';
+import { LayoutWrapper } from '@/components/layout/layout-wrapper';
 import { siteConfig } from '@/config/site';
 
 const inter = Inter({
@@ -77,14 +69,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#0A2342" />
       </head>
       <body className="font-sans antialiased">
-        <OrganizationSchema />
-        <LocalBusinessSchema />
-        <ServiceSchema />
-        <FAQSchema />
-        <Header />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
-        <WhatsAppButton />
+        <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>
   );
