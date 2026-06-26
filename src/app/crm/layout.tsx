@@ -5,16 +5,16 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard, Package, Users, Building2, Truck, UserCircle,
-  Warehouse, Route, Receipt, IndianRupee, TrendingUp, Calendar,
+  Warehouse, Route as RouteIcon, Receipt, IndianRupee, TrendingUp, Calendar,
   BarChart3, Bell, Settings, Menu, X, Search, Moon, Sun,
-  ChevronDown, LogOut, User,
+  ChevronDown, User,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { crmNavigation } from '@/config/crm-navigation';
 
 const iconMap: Record<string, React.ElementType> = {
   LayoutDashboard, Package, Users, Building2, Truck, UserCircle,
-  Warehouse, Route, Receipt, IndianRupee, TrendingUp, Calendar,
+  Warehouse, Route: RouteIcon, Receipt, IndianRupee, TrendingUp, Calendar,
   BarChart3, Bell, Settings,
 };
 
