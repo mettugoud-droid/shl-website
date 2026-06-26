@@ -34,13 +34,11 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
         {/* Logo */}
         <div className="h-16 flex items-center px-5 border-b border-gray-200 dark:border-gray-800">
           <Link href="/crm" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-primary to-primary-600 rounded-lg flex items-center justify-center">
-              <Truck className="w-4 h-4 text-white" />
-            </div>
-            <div>
-              <span className="text-sm font-bold text-primary dark:text-white">SHL</span>
-              <span className="text-[10px] text-gray-400 block -mt-0.5">ERP System</span>
-            </div>
+            <img
+              src="/images/logo.png"
+              alt="Sri Harinath Logistics"
+              className="h-9 w-auto object-contain"
+            />
           </Link>
         </div>
 

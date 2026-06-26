@@ -19,8 +19,7 @@ export default function CustomerLayout({ children }: { children: React.ReactNode
       <header className="bg-white border-b sticky top-0 z-30">
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link href="/customer/shipments" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center"><Truck className="w-4 h-4 text-white" /></div>
-            <span className="text-sm font-bold text-primary">SHL Customer Portal</span>
+            <img src="/images/logo.png" alt="SHL" className="h-8 w-auto object-contain" />
           </Link>
           <div className="flex items-center gap-3">
             <nav className="hidden md:flex items-center gap-1">
