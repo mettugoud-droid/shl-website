@@ -77,8 +77,15 @@ export default function LoginPage() {
           </form>
 
           <p className="text-xs text-gray-400 text-center mt-6">
-            Default: admin@sriharinathlogistics.com / admin123
+            Demo Accounts:
           </p>
+          <div className="mt-2 text-[10px] text-gray-400 space-y-0.5 text-center">
+            <p>admin@ / admin123 (Super Admin)</p>
+            <p>ops@ / ops123 (Operations)</p>
+            <p>sales@ / sales123 (Sales)</p>
+            <p>dispatch@ / dispatch123</p>
+            <p>driver@ / driver123</p>
+          </div>
         </div>
       </div>
     </div>
