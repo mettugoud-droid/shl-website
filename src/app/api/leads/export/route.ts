@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     const where: Record<string, unknown> = {};
 
     if (type) where.type = type;
-    if (status) where.status = status;
+    if (status) where.stage = status;
     if (startDate || endDate) {
       where.createdAt = {};
       if (startDate) (where.createdAt as Record<string, unknown>).gte = new Date(startDate);
@@ -38,39 +38,27 @@ export async function GET(request: NextRequest) {
     // Generate CSV
     const headers = [
       'ID',
-      'Type',
-      'Status',
+      'Source',
+      'Stage',
       'Name',
       'Email',
       'Phone',
       'Company',
-      'Subject',
-      'Pickup Location',
-      'Delivery Location',
-      'Shipment Type',
-      'Vehicle Requirement',
-      'Monthly Volume',
-      'Message',
-      'Source',
+      'Requirement',
+      'Notes',
       'Created At',
     ];
 
     const rows = leads.map((lead) => [
       lead.id,
-      lead.type,
-      lead.status,
-      `"${lead.name}"`,
-      lead.email,
-      lead.phone,
-      `"${lead.company || ''}"`,
-      `"${lead.subject || ''}"`,
-      `"${lead.pickupLocation || ''}"`,
-      `"${lead.deliveryLocation || ''}"`,
-      lead.shipmentType || '',
-      lead.vehicleRequirement || '',
-      lead.monthlyVolume || '',
-      `"${lead.message.replace(/"/g, '""')}"`,
       lead.source,
+      lead.stage,
+      `"${lead.contactName}"`,
+      lead.email || '',
+      lead.phone,
+      `"${lead.companyName || ''}"`,
+      `"${(lead.requirement || '').replace(/"/g, '""')}"`,
+      `"${(lead.notes || '').replace(/"/g, '""')}"`,
       lead.createdAt.toISOString(),
     ]);
 

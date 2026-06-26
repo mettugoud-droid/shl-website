@@ -35,19 +35,14 @@ export async function POST(request: NextRequest) {
     try {
       await prisma.lead.create({
         data: {
-          type: 'QUOTE',
-          name: data.contactPerson,
+          source: 'WEBSITE',
+          contactName: data.contactPerson,
           email: data.email,
           phone: data.mobile,
-          company: data.companyName,
-          pickupLocation: data.pickupLocation,
-          deliveryLocation: data.deliveryLocation,
-          shipmentType: data.shipmentType,
-          vehicleRequirement: data.vehicleRequirement,
-          monthlyVolume: data.monthlyVolume,
-          message: data.message || '',
-          source: 'WEBSITE_QUOTE_FORM',
-          status: 'NEW',
+          companyName: data.companyName,
+          requirement: `${data.shipmentType} | ${data.pickupLocation} → ${data.deliveryLocation} | Vehicle: ${data.vehicleRequirement} | Volume: ${data.monthlyVolume}`,
+          stage: 'NEW',
+          notes: data.message || '',
         },
       });
     } catch (dbError) {

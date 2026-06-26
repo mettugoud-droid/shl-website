@@ -35,14 +35,13 @@ export async function POST(request: NextRequest) {
     try {
       await prisma.lead.create({
         data: {
-          type: 'CONTACT',
-          name: data.name,
+          source: 'WEBSITE',
+          contactName: data.name,
           email: data.email,
           phone: data.mobile,
-          subject: data.subject,
-          message: data.message,
-          source: 'WEBSITE_CONTACT_FORM',
-          status: 'NEW',
+          requirement: `${data.subject}: ${data.message}`,
+          stage: 'NEW',
+          notes: `Contact Form - Subject: ${data.subject}`,
         },
       });
     } catch (dbError) {

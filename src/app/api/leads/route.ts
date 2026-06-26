@@ -28,19 +28,19 @@ export async function GET(request: NextRequest) {
     const where: Record<string, unknown> = {};
 
     if (type) {
-      where.type = type;
+      where.source = type;
     }
 
     if (status) {
-      where.status = status;
+      where.stage = status;
     }
 
     if (search) {
       where.OR = [
-        { name: { contains: search, mode: 'insensitive' } },
+        { contactName: { contains: search, mode: 'insensitive' } },
         { email: { contains: search, mode: 'insensitive' } },
         { phone: { contains: search } },
-        { company: { contains: search, mode: 'insensitive' } },
+        { companyName: { contains: search, mode: 'insensitive' } },
       ];
     }
 
@@ -100,7 +100,7 @@ export async function PATCH(request: NextRequest) {
     const updatedLead = await prisma.lead.update({
       where: { id },
       data: {
-        status,
+        stage: status,
         ...(notes && { notes }),
       },
     });
