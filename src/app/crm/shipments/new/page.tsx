@@ -10,7 +10,16 @@ export default function CreateShipmentPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => { setIsSubmitting(false); alert('Shipment created successfully!'); }, 1500);
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    try {
+      const res = await fetch('/api/crm/shipments', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      const result = await res.json();
+      if (result.success) { alert('Shipment created: ' + result.data.shipmentNo); window.location.href = '/crm/shipments'; }
+      else { alert(result.message); }
+    } catch { alert('Error creating shipment'); }
+    finally { setIsSubmitting(false); }
   };
 
   return (

@@ -6,7 +6,20 @@ import { ArrowLeft, Save, Loader2 } from 'lucide-react';
 
 export default function NewDriverPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); setIsSubmitting(true); setTimeout(() => { setIsSubmitting(false); alert('Driver added successfully!'); }, 1500); };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    try {
+      const res = await fetch('/api/crm/drivers', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      const result = await res.json();
+      if (result.success) { alert('Driver added: ' + result.data.driverCode); window.location.href = '/crm/drivers'; }
+      else { alert(result.message); }
+    } catch { alert('Error adding driver'); }
+    finally { setIsSubmitting(false); }
+  };
 
   return (
     <div className="space-y-6">

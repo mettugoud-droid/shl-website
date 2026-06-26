@@ -6,7 +6,20 @@ import { ArrowLeft, Save, Loader2 } from 'lucide-react';
 
 export default function NewVehiclePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); setIsSubmitting(true); setTimeout(() => { setIsSubmitting(false); alert('Vehicle added successfully!'); }, 1500); };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    try {
+      const res = await fetch('/api/crm/vehicles', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      const result = await res.json();
+      if (result.success) { alert('Vehicle added: ' + result.data.vehicleNo); window.location.href = '/crm/fleet'; }
+      else { alert(result.message); }
+    } catch { alert('Error adding vehicle'); }
+    finally { setIsSubmitting(false); }
+  };
 
   return (
     <div className="space-y-6">
