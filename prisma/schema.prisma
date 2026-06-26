@@ -7,73 +7,984 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum LeadType {
-  CONTACT
-  QUOTE
+// ═══════════════════════════════════════════════════════════════
+// AUTHENTICATION & ACCESS CONTROL
+// ═══════════════════════════════════════════════════════════════
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String
+  name          String
+  phone         String?
+  avatar        String?
+  isActive      Boolean   @default(true)
+  emailVerified Boolean   @default(false)
+  lastLogin     DateTime?
+  roleId        String
+  role          Role      @relation(fields: [roleId], references: [id])
+  branchId      String?
+  branch        Branch?   @relation(fields: [branchId], references: [id])
+  employeeId    String?   @unique
+  employee      Employee? @relation(fields: [employeeId], references: [id])
+  customerId    String?   @unique
+  vendorId      String?   @unique
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  auditLogs     AuditLog[]
+  notifications Notification[]
+
+  @@index([email])
+  @@index([roleId])
+  @@map("users")
 }
 
-enum LeadStatus {
-  NEW
-  CONTACTED
-  QUALIFIED
-  CONVERTED
-  CLOSED
+model Role {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  displayName String
+  description String?
+  isSystem    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users       User[]
+  permissions RolePermission[]
+
+  @@map("roles")
 }
 
-enum LeadSource {
-  WEBSITE_CONTACT_FORM
-  WEBSITE_QUOTE_FORM
-  WHATSAPP
-  PHONE
-  EMAIL
-  REFERRAL
-  OTHER
+
+model Permission {
+  id       String @id @default(cuid())
+  module   String
+  action   String
+  
+  roles    RolePermission[]
+
+  @@unique([module, action])
+  @@map("permissions")
 }
+
+model RolePermission {
+  id           String     @id @default(cuid())
+  roleId       String
+  role         Role       @relation(fields: [roleId], references: [id])
+  permissionId String
+  permission   Permission @relation(fields: [permissionId], references: [id])
+
+  @@unique([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  action    String
+  module    String
+  entityId  String?
+  details   String?
+  ipAddress String?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([module])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// COMPANY & BRANCHES
+// ═══════════════════════════════════════════════════════════════
+
+model Branch {
+  id        String    @id @default(cuid())
+  name      String
+  code      String    @unique
+  address   String?
+  city      String?
+  state     String?
+  pincode   String?
+  phone     String?
+  email     String?
+  isActive  Boolean   @default(true)
+  isHead    Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  users     User[]
+  employees Employee[]
+  shipments Shipment[]
+  vehicles  Vehicle[]
+
+  @@map("branches")
+}
+
+
+// ═══════════════════════════════════════════════════════════════
+// EMPLOYEE MANAGEMENT
+// ═══════════════════════════════════════════════════════════════
+
+model Employee {
+  id            String    @id @default(cuid())
+  employeeCode  String    @unique
+  name          String
+  email         String?
+  phone         String
+  department    String?
+  designation   String?
+  reportingTo   String?
+  branchId      String?
+  branch        Branch?   @relation(fields: [branchId], references: [id])
+  dateOfJoining DateTime?
+  dateOfBirth   DateTime?
+  gender        String?
+  address       String?
+  city          String?
+  state         String?
+  pincode       String?
+  aadhaar       String?
+  pan           String?
+  bankName      String?
+  bankAccount   String?
+  ifsc          String?
+  ctc           Decimal?  @db.Decimal(12, 2)
+  basicSalary   Decimal?  @db.Decimal(12, 2)
+  status        String    @default("ACTIVE")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  user          User?
+  documents     EmployeeDocument[]
+  attendance    Attendance[]
+  leaves        Leave[]
+  tasks         Task[]
+  payrolls      Payroll[]
+  salesActivities SalesActivity[]
+  assignedLeads Lead[]
+
+  @@index([department])
+  @@index([branchId])
+  @@map("employees")
+}
+
+model EmployeeDocument {
+  id         String   @id @default(cuid())
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id])
+  type       String
+  fileName   String
+  fileUrl    String
+  expiryDate DateTime?
+  createdAt  DateTime @default(now())
+
+  @@map("employee_documents")
+}
+
+model Attendance {
+  id         String    @id @default(cuid())
+  employeeId String
+  employee   Employee  @relation(fields: [employeeId], references: [id])
+  date       DateTime
+  checkIn    DateTime?
+  checkOut   DateTime?
+  checkInLat  Float?
+  checkInLng  Float?
+  checkOutLat Float?
+  checkOutLng Float?
+  status     String    @default("PRESENT")
+  workHours  Float?
+  notes      String?
+  createdAt  DateTime  @default(now())
+
+  @@unique([employeeId, date])
+  @@index([date])
+  @@map("attendance")
+}
+
+model Leave {
+  id         String   @id @default(cuid())
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id])
+  type       String
+  fromDate   DateTime
+  toDate     DateTime
+  days       Float
+  reason     String?
+  status     String   @default("PENDING")
+  approvedBy String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([employeeId])
+  @@index([status])
+  @@map("leaves")
+}
+
+model Task {
+  id          String    @id @default(cuid())
+  employeeId  String
+  employee    Employee  @relation(fields: [employeeId], references: [id])
+  title       String
+  description String?
+  priority    String    @default("MEDIUM")
+  status      String    @default("PENDING")
+  dueDate     DateTime?
+  completedAt DateTime?
+  notes       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([employeeId])
+  @@index([status])
+  @@index([dueDate])
+  @@map("tasks")
+}
+
+model Payroll {
+  id          String   @id @default(cuid())
+  employeeId  String
+  employee    Employee @relation(fields: [employeeId], references: [id])
+  month       Int
+  year        Int
+  basic       Decimal  @db.Decimal(12, 2)
+  hra         Decimal  @default(0) @db.Decimal(12, 2)
+  allowances  Decimal  @default(0) @db.Decimal(12, 2)
+  deductions  Decimal  @default(0) @db.Decimal(12, 2)
+  netPay      Decimal  @db.Decimal(12, 2)
+  status      String   @default("DRAFT")
+  paidAt      DateTime?
+  createdAt   DateTime @default(now())
+
+  @@unique([employeeId, month, year])
+  @@map("payrolls")
+}
+
+
+// ═══════════════════════════════════════════════════════════════
+// CUSTOMER CRM
+// ═══════════════════════════════════════════════════════════════
+
+model Customer {
+  id             String    @id @default(cuid())
+  customerCode   String    @unique
+  companyName    String
+  type           String    @default("B2B")
+  gst            String?
+  pan            String?
+  industry       String?
+  creditLimit    Decimal   @default(0) @db.Decimal(12, 2)
+  outstanding    Decimal   @default(0) @db.Decimal(12, 2)
+  status         String    @default("ACTIVE")
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  deletedAt      DateTime?
+
+  branches       CustomerBranch[]
+  contacts       CustomerContact[]
+  contracts      Contract[]
+  interactions   Interaction[]
+  shipments      Shipment[]
+  invoices       Invoice[]
+  quotations     Quotation[]
+  opportunities  SalesOpportunity[]
+  leads          Lead[]
+
+  @@index([companyName])
+  @@index([type])
+  @@map("customers")
+}
+
+model CustomerBranch {
+  id         String   @id @default(cuid())
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+  name       String
+  address    String?
+  city       String?
+  state      String?
+  pincode    String?
+  phone      String?
+  email      String?
+  isDefault  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@map("customer_branches")
+}
+
+model CustomerContact {
+  id         String   @id @default(cuid())
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+  name       String
+  designation String?
+  phone      String?
+  email      String?
+  isPrimary  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@map("customer_contacts")
+}
+
+model Contract {
+  id         String    @id @default(cuid())
+  customerId String
+  customer   Customer  @relation(fields: [customerId], references: [id])
+  title      String
+  startDate  DateTime
+  endDate    DateTime?
+  terms      String?
+  rateCard   String?
+  status     String    @default("ACTIVE")
+  fileUrl    String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@map("contracts")
+}
+
+model Interaction {
+  id         String   @id @default(cuid())
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+  type       String
+  subject    String?
+  notes      String?
+  contactId  String?
+  createdBy  String?
+  createdAt  DateTime @default(now())
+
+  @@index([customerId])
+  @@index([type])
+  @@map("interactions")
+}
+
+model Quotation {
+  id          String   @id @default(cuid())
+  quotationNo String   @unique
+  customerId  String
+  customer    Customer @relation(fields: [customerId], references: [id])
+  validUntil  DateTime?
+  totalAmount Decimal  @db.Decimal(12, 2)
+  status      String   @default("DRAFT")
+  notes       String?
+  items       String?
+  createdBy   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([customerId])
+  @@map("quotations")
+}
+
+model SalesOpportunity {
+  id         String    @id @default(cuid())
+  customerId String
+  customer   Customer  @relation(fields: [customerId], references: [id])
+  title      String
+  value      Decimal?  @db.Decimal(12, 2)
+  stage      String    @default("NEW")
+  probability Int?
+  closedAt   DateTime?
+  notes      String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@index([stage])
+  @@map("sales_opportunities")
+}
+
+
+// ═══════════════════════════════════════════════════════════════
+// VENDOR MANAGEMENT
+// ═══════════════════════════════════════════════════════════════
+
+model Vendor {
+  id          String    @id @default(cuid())
+  vendorCode  String    @unique
+  name        String
+  companyName String?
+  type        String    @default("FLEET_OWNER")
+  phone       String
+  email       String?
+  gst         String?
+  pan         String?
+  address     String?
+  city        String?
+  state       String?
+  bankName    String?
+  bankAccount String?
+  ifsc        String?
+  rating      Float?
+  status      String    @default("ACTIVE")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  documents   VendorDocument[]
+  vehicles    Vehicle[]
+  payments    VendorPayment[]
+
+  @@map("vendors")
+}
+
+model VendorDocument {
+  id        String    @id @default(cuid())
+  vendorId  String
+  vendor    Vendor    @relation(fields: [vendorId], references: [id])
+  type      String
+  fileName  String
+  fileUrl   String
+  expiryDate DateTime?
+  createdAt DateTime  @default(now())
+
+  @@map("vendor_documents")
+}
+
+model VendorPayment {
+  id        String   @id @default(cuid())
+  vendorId  String
+  vendor    Vendor   @relation(fields: [vendorId], references: [id])
+  amount    Decimal  @db.Decimal(12, 2)
+  tripId    String?
+  reference String?
+  mode      String?
+  status    String   @default("PENDING")
+  paidAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([vendorId])
+  @@map("vendor_payments")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SHIPMENT MANAGEMENT
+// ═══════════════════════════════════════════════════════════════
+
+model Shipment {
+  id               String    @id @default(cuid())
+  shipmentNo       String    @unique
+  type             String    @default("B2B")
+  mode             String    @default("FTL")
+  customerId       String
+  customer         Customer  @relation(fields: [customerId], references: [id])
+  branchId         String?
+  branch           Branch?   @relation(fields: [branchId], references: [id])
+  // Origin
+  pickupAddress    String
+  pickupCity       String
+  pickupState      String?
+  pickupPincode    String?
+  pickupContact    String?
+  pickupPhone      String?
+  // Destination
+  deliveryAddress  String
+  deliveryCity     String
+  deliveryState    String?
+  deliveryPincode  String?
+  deliveryContact  String?
+  deliveryPhone    String?
+  // Cargo
+  totalWeight      Decimal?  @db.Decimal(10, 2)
+  totalVolume      Decimal?  @db.Decimal(10, 2)
+  numberOfPackages Int?
+  goodsDescription String?
+  goodsValue       Decimal?  @db.Decimal(12, 2)
+  // Pricing
+  freightAmount    Decimal?  @db.Decimal(12, 2)
+  loadingCharges   Decimal?  @default(0) @db.Decimal(12, 2)
+  unloadingCharges Decimal?  @default(0) @db.Decimal(12, 2)
+  otherCharges     Decimal?  @default(0) @db.Decimal(12, 2)
+  gstAmount        Decimal?  @default(0) @db.Decimal(12, 2)
+  totalAmount      Decimal?  @db.Decimal(12, 2)
+  // Status
+  status           String    @default("BOOKED")
+  currentLocation  String?
+  expectedDelivery DateTime?
+  actualDelivery   DateTime?
+  // References
+  ewayBillNo       String?
+  invoiceNo        String?
+  poNumber         String?
+  remarks          String?
+  createdBy        String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  deletedAt        DateTime?
+
+  items            ShipmentItem[]
+  statusHistory    ShipmentStatus[]
+  assignment       ShipmentAssignment?
+  pod              ProofOfDelivery?
+  invoice          Invoice?
+
+  @@index([customerId])
+  @@index([status])
+  @@index([shipmentNo])
+  @@index([createdAt])
+  @@map("shipments")
+}
+
+model ShipmentItem {
+  id          String   @id @default(cuid())
+  shipmentId  String
+  shipment    Shipment @relation(fields: [shipmentId], references: [id])
+  description String
+  quantity    Int      @default(1)
+  weight      Decimal? @db.Decimal(10, 2)
+  dimensions  String?
+  createdAt   DateTime @default(now())
+
+  @@map("shipment_items")
+}
+
+model ShipmentStatus {
+  id         String   @id @default(cuid())
+  shipmentId String
+  shipment   Shipment @relation(fields: [shipmentId], references: [id])
+  status     String
+  location   String?
+  notes      String?
+  updatedBy  String?
+  createdAt  DateTime @default(now())
+
+  @@index([shipmentId])
+  @@map("shipment_statuses")
+}
+
+model ShipmentAssignment {
+  id         String   @id @default(cuid())
+  shipmentId String   @unique
+  shipment   Shipment @relation(fields: [shipmentId], references: [id])
+  vehicleId  String
+  vehicle    Vehicle  @relation(fields: [vehicleId], references: [id])
+  driverId   String
+  driver     Driver   @relation(fields: [driverId], references: [id])
+  assignedAt DateTime @default(now())
+  notes      String?
+
+  @@map("shipment_assignments")
+}
+
+model ProofOfDelivery {
+  id          String   @id @default(cuid())
+  shipmentId  String   @unique
+  shipment    Shipment @relation(fields: [shipmentId], references: [id])
+  receivedBy  String?
+  otp         String?
+  signature   String?
+  photoUrl    String?
+  deliveredAt DateTime @default(now())
+  notes       String?
+
+  @@map("proof_of_deliveries")
+}
+
+
+// ═══════════════════════════════════════════════════════════════
+// FLEET & VEHICLE MANAGEMENT
+// ═══════════════════════════════════════════════════════════════
+
+model Vehicle {
+  id              String    @id @default(cuid())
+  vehicleNo       String    @unique
+  type            String
+  capacity        String?
+  make            String?
+  model           String?
+  year            Int?
+  ownerType       String    @default("OWN")
+  vendorId        String?
+  vendor          Vendor?   @relation(fields: [vendorId], references: [id])
+  branchId        String?
+  branch          Branch?   @relation(fields: [branchId], references: [id])
+  chassisNo       String?
+  engineNo        String?
+  fuelType        String?
+  status          String    @default("AVAILABLE")
+  currentLocation String?
+  odometerReading Int?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  deletedAt       DateTime?
+
+  documents       VehicleDocument[]
+  maintenance     VehicleMaintenance[]
+  expenses        VehicleExpense[]
+  trips           Trip[]
+  assignments     ShipmentAssignment[]
+
+  @@index([status])
+  @@index([type])
+  @@map("vehicles")
+}
+
+model VehicleDocument {
+  id          String    @id @default(cuid())
+  vehicleId   String
+  vehicle     Vehicle   @relation(fields: [vehicleId], references: [id])
+  type        String
+  documentNo  String?
+  issueDate   DateTime?
+  expiryDate  DateTime?
+  fileUrl     String?
+  status      String    @default("VALID")
+  createdAt   DateTime  @default(now())
+
+  @@index([vehicleId])
+  @@index([expiryDate])
+  @@map("vehicle_documents")
+}
+
+model VehicleMaintenance {
+  id          String    @id @default(cuid())
+  vehicleId   String
+  vehicle     Vehicle   @relation(fields: [vehicleId], references: [id])
+  type        String
+  description String?
+  cost        Decimal?  @db.Decimal(12, 2)
+  odometer    Int?
+  serviceDate DateTime
+  nextDue     DateTime?
+  vendor      String?
+  createdAt   DateTime  @default(now())
+
+  @@index([vehicleId])
+  @@map("vehicle_maintenance")
+}
+
+model VehicleExpense {
+  id          String   @id @default(cuid())
+  vehicleId   String
+  vehicle     Vehicle  @relation(fields: [vehicleId], references: [id])
+  type        String
+  amount      Decimal  @db.Decimal(12, 2)
+  description String?
+  date        DateTime
+  odometer    Int?
+  fuelLiters  Decimal? @db.Decimal(8, 2)
+  tripId      String?
+  createdAt   DateTime @default(now())
+
+  @@index([vehicleId])
+  @@index([type])
+  @@map("vehicle_expenses")
+}
+
+model Trip {
+  id          String    @id @default(cuid())
+  tripNo      String    @unique
+  vehicleId   String
+  vehicle     Vehicle   @relation(fields: [vehicleId], references: [id])
+  driverId    String
+  driver      Driver    @relation(fields: [driverId], references: [id])
+  origin      String
+  destination String
+  distance    Decimal?  @db.Decimal(10, 2)
+  startDate   DateTime?
+  endDate     DateTime?
+  status      String    @default("PLANNED")
+  startOdometer Int?
+  endOdometer   Int?
+  fuelCost    Decimal?  @db.Decimal(12, 2)
+  tollCost    Decimal?  @db.Decimal(12, 2)
+  otherCost   Decimal?  @db.Decimal(12, 2)
+  notes       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([vehicleId])
+  @@index([driverId])
+  @@index([status])
+  @@map("trips")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// DRIVER MANAGEMENT
+// ═══════════════════════════════════════════════════════════════
+
+model Driver {
+  id            String    @id @default(cuid())
+  driverCode    String    @unique
+  name          String
+  phone         String
+  email         String?
+  aadhaar       String?
+  licenceNo     String?
+  licenceExpiry DateTime?
+  address       String?
+  city          String?
+  state         String?
+  dateOfBirth   DateTime?
+  bloodGroup    String?
+  emergencyContact String?
+  bankName      String?
+  bankAccount   String?
+  ifsc          String?
+  status        String    @default("AVAILABLE")
+  rating        Float?    @default(5.0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  documents     DriverDocument[]
+  trips         Trip[]
+  expenses      DriverExpense[]
+  ratings       DriverRating[]
+  incidents     DriverIncident[]
+  assignments   ShipmentAssignment[]
+
+  @@index([status])
+  @@map("drivers")
+}
+
+model DriverDocument {
+  id         String    @id @default(cuid())
+  driverId   String
+  driver     Driver    @relation(fields: [driverId], references: [id])
+  type       String
+  documentNo String?
+  expiryDate DateTime?
+  fileUrl    String?
+  createdAt  DateTime  @default(now())
+
+  @@map("driver_documents")
+}
+
+model DriverExpense {
+  id          String   @id @default(cuid())
+  driverId    String
+  driver      Driver   @relation(fields: [driverId], references: [id])
+  tripId      String?
+  type        String
+  amount      Decimal  @db.Decimal(12, 2)
+  description String?
+  date        DateTime
+  receipt     String?
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+
+  @@map("driver_expenses")
+}
+
+model DriverRating {
+  id        String   @id @default(cuid())
+  driverId  String
+  driver    Driver   @relation(fields: [driverId], references: [id])
+  tripId    String?
+  rating    Int
+  feedback  String?
+  ratedBy   String?
+  createdAt DateTime @default(now())
+
+  @@map("driver_ratings")
+}
+
+model DriverIncident {
+  id          String   @id @default(cuid())
+  driverId    String
+  driver      Driver   @relation(fields: [driverId], references: [id])
+  type        String
+  date        DateTime
+  description String?
+  fineAmount  Decimal? @db.Decimal(12, 2)
+  status      String   @default("OPEN")
+  createdAt   DateTime @default(now())
+
+  @@map("driver_incidents")
+}
+
+
+// ═══════════════════════════════════════════════════════════════
+// BILLING & FINANCE
+// ═══════════════════════════════════════════════════════════════
+
+model Invoice {
+  id          String    @id @default(cuid())
+  invoiceNo   String    @unique
+  customerId  String
+  customer    Customer  @relation(fields: [customerId], references: [id])
+  shipmentId  String?   @unique
+  shipment    Shipment? @relation(fields: [shipmentId], references: [id])
+  invoiceDate DateTime  @default(now())
+  dueDate     DateTime?
+  subtotal    Decimal   @db.Decimal(12, 2)
+  gstAmount   Decimal   @default(0) @db.Decimal(12, 2)
+  totalAmount Decimal   @db.Decimal(12, 2)
+  paidAmount  Decimal   @default(0) @db.Decimal(12, 2)
+  status      String    @default("UNPAID")
+  notes       String?
+  createdBy   String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  items       InvoiceItem[]
+  payments    Payment[]
+
+  @@index([customerId])
+  @@index([status])
+  @@map("invoices")
+}
+
+model InvoiceItem {
+  id          String  @id @default(cuid())
+  invoiceId   String
+  invoice     Invoice @relation(fields: [invoiceId], references: [id])
+  description String
+  sacCode     String?
+  quantity    Int     @default(1)
+  rate        Decimal @db.Decimal(12, 2)
+  amount      Decimal @db.Decimal(12, 2)
+  gstRate     Decimal @default(18) @db.Decimal(5, 2)
+  gstAmount   Decimal @default(0) @db.Decimal(12, 2)
+
+  @@map("invoice_items")
+}
+
+model Payment {
+  id          String   @id @default(cuid())
+  invoiceId   String
+  invoice     Invoice  @relation(fields: [invoiceId], references: [id])
+  amount      Decimal  @db.Decimal(12, 2)
+  mode        String
+  reference   String?
+  receivedAt  DateTime @default(now())
+  notes       String?
+  createdAt   DateTime @default(now())
+
+  @@index([invoiceId])
+  @@map("payments")
+}
+
+model Expense {
+  id          String   @id @default(cuid())
+  category    String
+  amount      Decimal  @db.Decimal(12, 2)
+  description String?
+  date        DateTime
+  vehicleId   String?
+  employeeId  String?
+  branchId    String?
+  receipt     String?
+  status      String   @default("APPROVED")
+  approvedBy  String?
+  createdBy   String?
+  createdAt   DateTime @default(now())
+
+  @@index([category])
+  @@index([date])
+  @@map("expenses")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SALES CRM
+// ═══════════════════════════════════════════════════════════════
 
 model Lead {
-  id                 String     @id @default(cuid())
-  type               LeadType
-  status             LeadStatus @default(NEW)
-  source             LeadSource @default(WEBSITE_CONTACT_FORM)
+  id           String    @id @default(cuid())
+  source       String    @default("WEBSITE")
+  companyName  String?
+  contactName  String
+  phone        String
+  email        String?
+  requirement  String?
+  estimatedValue Decimal? @db.Decimal(12, 2)
+  stage        String    @default("NEW")
+  assignedToId String?
+  assignedTo   Employee? @relation(fields: [assignedToId], references: [id])
+  customerId   String?
+  customer     Customer? @relation(fields: [customerId], references: [id])
+  closedAt     DateTime?
+  lostReason   String?
+  notes        String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
 
-  // Common fields
-  name               String
-  email              String
-  phone              String
-  company            String?
-  subject            String?
-  message            String     @default("")
+  activities   SalesActivity[]
+  followUps    FollowUp[]
 
-  // Quote-specific fields
-  pickupLocation     String?
-  deliveryLocation   String?
-  shipmentType       String?
-  vehicleRequirement String?
-  monthlyVolume      String?
-
-  // Metadata
-  ipAddress          String?
-  userAgent          String?
-  notes              String?
-
-  createdAt          DateTime   @default(now())
-  updatedAt          DateTime   @updatedAt
-
-  @@index([type])
-  @@index([status])
-  @@index([createdAt])
-  @@index([email])
+  @@index([stage])
+  @@index([assignedToId])
   @@map("leads")
 }
 
-model AdminUser {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String
-  name      String
-  role      String   @default("admin")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model SalesActivity {
+  id         String    @id @default(cuid())
+  leadId     String?
+  lead       Lead?     @relation(fields: [leadId], references: [id])
+  employeeId String?
+  employee   Employee? @relation(fields: [employeeId], references: [id])
+  type       String
+  subject    String?
+  notes      String?
+  outcome    String?
+  duration   Int?
+  createdAt  DateTime  @default(now())
 
-  @@map("admin_users")
+  @@index([leadId])
+  @@map("sales_activities")
+}
+
+model FollowUp {
+  id          String    @id @default(cuid())
+  leadId      String
+  lead        Lead      @relation(fields: [leadId], references: [id])
+  scheduledAt DateTime
+  type        String
+  notes       String?
+  status      String    @default("PENDING")
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+
+  @@index([leadId])
+  @@index([scheduledAt])
+  @@map("follow_ups")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// NOTIFICATIONS
+// ═══════════════════════════════════════════════════════════════
+
+model Notification {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  title     String
+  message   String
+  type      String    @default("INFO")
+  link      String?
+  isRead    Boolean   @default(false)
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@index([isRead])
+  @@map("notifications")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SETTINGS
+// ═══════════════════════════════════════════════════════════════
+
+model Holiday {
+  id        String   @id @default(cuid())
+  name      String
+  date      DateTime
+  type      String   @default("PUBLIC")
+  createdAt DateTime @default(now())
+
+  @@map("holidays")
+}
+
+model TaxConfig {
+  id      String  @id @default(cuid())
+  name    String
+  sacCode String?
+  rate    Decimal @db.Decimal(5, 2)
+
+  @@map("tax_configs")
 }
