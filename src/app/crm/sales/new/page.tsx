@@ -5,7 +5,20 @@ import { ArrowLeft, Save, Loader2 } from 'lucide-react';
 
 export default function NewLeadPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); setIsSubmitting(true); setTimeout(() => { setIsSubmitting(false); alert('Lead created!'); }, 1500); };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    try {
+      const res = await fetch('/api/crm/leads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      const result = await res.json();
+      if (result.success) { alert('Lead created successfully!'); window.location.href = '/crm/sales'; }
+      else { alert(result.message); }
+    } catch { alert('Error creating lead'); }
+    finally { setIsSubmitting(false); }
+  };
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4"><Link href="/crm/sales" className="p-2 hover:bg-gray-100 rounded-lg"><ArrowLeft className="w-5 h-5 text-gray-600" /></Link><div><h1 className="text-2xl font-bold text-gray-900">Add New Lead</h1><p className="text-sm text-gray-500">Create a sales opportunity</p></div></div>
