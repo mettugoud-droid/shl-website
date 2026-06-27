@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { crmNavigation } from '@/config/crm-navigation';
+import { getAccessibleModules } from '@/config/role-access';
 
 const iconMap: Record<string, React.ElementType> = {
   LayoutDashboard, Package, Users, Building2, Truck, UserCircle,
@@ -22,7 +23,19 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState('super-admin');
+  const [userName, setUserName] = useState('Admin');
   const pathname = usePathname();
+
+  useEffect(() => {
+    const role = document.cookie.split('; ').find(c => c.startsWith('user-role='))?.split('=')[1] || 'super-admin';
+    const name = decodeURIComponent(document.cookie.split('; ').find(c => c.startsWith('user-name='))?.split('=')[1] || 'Admin');
+    setUserRole(role);
+    setUserName(name);
+  }, []);
+
+  const accessibleModules = getAccessibleModules(userRole);
+  const filteredNav = crmNavigation.filter(item => accessibleModules.includes(item.title));
 
   return (
     <div className={cn('min-h-screen flex', darkMode && 'dark bg-gray-900')}>
@@ -45,7 +58,7 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
         {/* Navigation */}
         <nav className="flex-1 overflow-y-auto py-4 px-3">
           <div className="space-y-1">
-            {crmNavigation.map((item) => {
+            {filteredNav.map((item) => {
               const Icon = iconMap[item.icon] || LayoutDashboard;
               const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
               const hasChildren = item.children && item.children.length > 0;
@@ -151,8 +164,8 @@ export default function CRMLayout({ children }: { children: React.ReactNode }) {
                 <User className="w-4 h-4 text-primary" />
               </div>
               <div className="hidden md:block">
-                <p className="text-xs font-medium text-gray-700 dark:text-gray-300">Admin</p>
-                <p className="text-[10px] text-gray-400">Super Admin</p>
+                <p className="text-xs font-medium text-gray-700 dark:text-gray-300">{userName}</p>
+                <p className="text-[10px] text-gray-400">{userRole.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</p>
               </div>
             </div>
           </div>
